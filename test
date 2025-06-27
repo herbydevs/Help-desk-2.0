@@ -1,0 +1,107 @@
+import sqlite3
+... import hashlib
+... 
+... DB_PATH = "helpdesk.db"
+... 
+... SCHEMA = """
+... DROP TABLE IF EXISTS users;
+... DROP TABLE IF EXISTS tickets;
+... DROP TABLE IF EXISTS messages;
+... DROP TABLE IF EXISTS admin_issue_types;
+... 
+... CREATE TABLE users (
+...     id INTEGER PRIMARY KEY AUTOINCREMENT,
+...     email TEXT UNIQUE NOT NULL,
+...     password TEXT NOT NULL,
+...     is_admin BOOLEAN DEFAULT FALSE,
+...     issue_type TEXT,
+...     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+... );
+... 
+... CREATE TABLE tickets (
+...     id INTEGER PRIMARY KEY AUTOINCREMENT,
+...     subject TEXT NOT NULL,
+...     description TEXT NOT NULL,
+...     status TEXT DEFAULT 'open',
+...     priority TEXT DEFAULT 'low',
+...     type TEXT NOT NULL,
+...     assigned_admin_id INTEGER,
+...     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+...     user_id INTEGER,
+...     FOREIGN KEY (user_id) REFERENCES users (id),
+...     FOREIGN KEY (assigned_admin_id) REFERENCES users (id)
+... );
+... 
+... CREATE TABLE messages (
+...     id INTEGER PRIMARY KEY AUTOINCREMENT,
+...     content TEXT NOT NULL,
+...     sender TEXT NOT NULL,
+...     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+...     ticket_id INTEGER,
+...     FOREIGN KEY (ticket_id) REFERENCES tickets (id)
+... );
+... """
+... 
+... # Initial admin users with their assigned issue types
+... INITIAL_USERS = [
+...     {
+...         "email": "payment.admin@example.com",
+...         "password": "admin123",
+...         "is_admin": True,
+...         "issue_type": "payment"
+...     },
+...     {
+...         "email": "service.admin@example.com",
+...         "password": "admin123",
+...         "is_admin": True,
+...         "issue_type": "service"
+...     },
+...     {
+...         "email": "account.admin@example.com",
+...         "password": "admin123",
+...         "is_admin": True,
+...         "issue_type": "account"
+...     },
+...     {
+...         "email": "user@example.com",
+...         "password": "user123",
+...         "is_admin": False,
+...         "issue_type": None
+...     }
+... ]
+... 
+... def init_db():
+...     with sqlite3.connect(DB_PATH) as conn:
+...         # Create tables
+...         conn.executescript(SCHEMA)
+...         
+...         # Add initial users
+...         for user in INITIAL_USERS:
+...             hashed_password = hashlib.sha256(user["password"].encode()).\
+hexdigest()
+...             conn.execute(
+...                 "INSERT INTO users (email, password, is_admin, issue_typ\
+e) VALUES (?, ?, ?, ?)",
+...                 (user["email"], hashed_password, user["is_admin"], user[\
+"issue_type"])
+...             )
+...         
+...         conn.commit()
+...         print("Database initialized successfully!")
+...         
+...         # Verify admin assignments
+...         cursor = conn.execute("SELECT email, is_admin, issue_type FROM u\
+sers WHERE is_admin = 1")
+...         print("\nAdmin assignments:")
+...         for email, is_admin, issue_type in cursor:
+...             print(f"Email: {email}, Type: {issue_type}")
+... 
+... if __name__ == "__main__":
+...     init_db()
+...     
+Database initialized successfully!
+
+Admin assignments:
+Email: payment.admin@example.com, Type: payment
+Email: service.admin@example.com, Type: service
+Email: account.admin@example.com, Type: account
