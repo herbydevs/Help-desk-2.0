@@ -5,7 +5,7 @@
     </div>
     <div class="SubmitTicket">
         <h2> Submit A Ticket</h2>
-        <form @submit="handleSubmit">
+        <form @submit.prevent="handleSubmit">
             <div class="form-group">
                 <label for="subject">Subject:</label>
                 <input type="text" id="subject" v-model="subject" required />
@@ -100,6 +100,7 @@
 
 <script>
 import { ref, onMounted, nextTick } from 'vue';
+
 export default {
     name: 'SubmitTicket',
     setup() {
@@ -121,22 +122,19 @@ export default {
             { sender: 'You', text: 'My ticket ID is 12345.' },
             { sender: 'Support', text: 'Thank you! We will look into it and get back to you shortly.' }
         ]);
-        const token = ref(localStorage.getItem('token'));
 
-        const handleSubmit = async (event) => {
-            event.preventDefault();
+        const handleSubmit = async () => {  // Remove event parameter
             try {
                 const response = await fetch('http://localhost:8000/api/tickets', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token.value}`
                     },
                     body: JSON.stringify({
                         subject: subject.value,
                         description: description.value,
                         priority: priority.value,
-                        type: type.value  // Add this line
+                        type: type.value
                     })
                 });
                 if (!response.ok) {
@@ -157,17 +155,7 @@ export default {
 
         const fetchTickets = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/tickets', {
-                    headers: {
-                        'Authorization': `Bearer ${token.value}`
-                    }
-                });
-                if (response.status === 401) {
-                    // Token expired or invalid
-                    localStorage.removeItem('token');
-                    window.location.href = '/login';
-                    return;
-                }
+                const response = await fetch('http://localhost:8000/api/tickets');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -215,11 +203,7 @@ export default {
 
         const fetchMessages = async (ticketId) => {
             try {
-                const response = await fetch(`http://localhost:8000/api/tickets/${ticketId}/messages`, {
-                    headers: {
-                        'Authorization': `Bearer ${token.value}`
-                    }
-                });
+                const response = await fetch(`http://localhost:8000/api/tickets/${ticketId}/messages`);
                 if (!response.ok) throw new Error('Failed to fetch messages');
                 chatMessages.value = await response.json();
             } catch (error) {
@@ -236,7 +220,6 @@ export default {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token.value}`
                     },
                     body: JSON.stringify({
                         content: newMessage.value.trim()
@@ -272,10 +255,6 @@ export default {
         };
 
         onMounted(() => {
-            if (!token.value) {
-                window.location.href = '/login'; // or use Vue Router
-                return;
-            }
             fetchTickets();
             
             // Return cleanup function

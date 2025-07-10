@@ -1,66 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import Client from './components/client.vue';
-import Login from './components/login.vue';
-import TicketList from './components/ticket_list.vue';
 
-const isLoggedIn = ref(false);
-const isAdmin = ref(false);
-
-onMounted(() => {
-  // Check if token exists in localStorage
-  const token = localStorage.getItem('token');
-  if (token) {
-    isLoggedIn.value = true;
-    // Check if user is admin from stored user data
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    isAdmin.value = userData.is_admin || false;
-  }
-});
-
-const handleLoginSuccess = (userData) => {
-  isLoggedIn.value = true;
-  isAdmin.value = userData.is_admin || false;
-  localStorage.setItem('userData', JSON.stringify(userData));
-};
-
-const handleLogout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('userData');
-  isLoggedIn.value = false;
-  isAdmin.value = false;
-};
+const isLoading = ref(false);
 </script>
 
 <template>
-  <!-- <div class="container">
-    <template v-if="!isLoggedIn">
-      <Login @login-success="handleLoginSuccess" />
-    </template>
-    <template v-else>
-      <nav class="nav-bar">
-        <h1>Help Desk System</h1>
-        <div class="user-info">
-          <span class="role-badge" :class="{ admin: isAdmin }">
-            {{ isAdmin ? 'Admin' : 'User' }}
-          </span>
-          <button @click="handleLogout" class="logout-btn">Logout</button>
-        </div>
-      </nav>
-      <div class="content">
-        <template v-if="isAdmin">
-          <TicketList />
-        </template>
-        <template v-else>
-          <Client />
-        </template>
-      </div>
-    </template>
-  </div> -->
-  <div>
-    <Client />
+  <div class="container" v-cloak>
+    <nav class="nav-bar">
+      <h1>Help Desk System</h1>
+    </nav>
+    <div class="content">
+      <Client />
+    </div>
   </div>
 </template>
+
 
 <style scoped>
 .container {
@@ -114,5 +69,26 @@ const handleLogout = () => {
   display: block;
   max-width: 800px;
   margin: 0 auto;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+/* Add transition styles */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
