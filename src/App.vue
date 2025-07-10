@@ -33,7 +33,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <template v-if="!isLoggedIn">
       <Login @login-success="handleLoginSuccess" />
     </template>
@@ -56,6 +56,9 @@ const handleLogout = () => {
         </template>
       </div>
     </template>
+  </div> -->
+  <div>
+    <Client />
   </div>
 </template>
 
