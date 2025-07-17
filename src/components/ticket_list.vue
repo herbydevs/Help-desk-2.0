@@ -1,5 +1,10 @@
 <template>
    <div class="ticket-list-container">
+        <div class="header-buttons">
+            <button class="nav-btn" @click="switchToUserManagement">
+                👥 User Management
+            </button>
+        </div>
         <h1>Tickets</h1>
         <table>
             <thead>
@@ -265,6 +270,10 @@ export default {
             }
         };
 
+        const switchToUserManagement = () => {
+            window.location.href = '/help-desk/user-management ';
+        };
+
         // Set up polling for updates
         onMounted(() => {
             fetchTickets();
@@ -291,7 +300,8 @@ export default {
             formatDate,
             updateTicketStatus,
             updateTicketPriority,
-            currentUser
+            currentUser,
+            switchToUserManagement
         };
     }
 };
@@ -556,5 +566,30 @@ td {
 select:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    padding: 8px 16px;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+}
+
+.nav-btn:hover {
+    background-color: #4338ca;
 }
 </style>

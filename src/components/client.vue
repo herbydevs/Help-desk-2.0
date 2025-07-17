@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <h1>Help Desk</h1>
-        <button @click="handleLogout" class="logout-button">Logout</button>
+       
     </div>
     <div class="SubmitTicket">
         <h2> Submit A Ticket</h2>

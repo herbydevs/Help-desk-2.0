@@ -1,17 +1,30 @@
 <script setup>
 import { ref } from 'vue';
-import Client from './components/client.vue';
+
+import { RouterView } from 'vue-router';
+
 
 const isLoading = ref(false);
+const isLoggedIn = ref(false);
+const handleLogout = () => {
+            localStorage.removeItem('token');
+            window.location.href = '/help-desk/login';
+        };
+
 </script>
 
 <template>
   <div class="container" v-cloak>
     <nav class="nav-bar">
       <h1>Help Desk System</h1>
+      <button @click="handleLogout"  v-if="isloggedIn" class="logout-button">Logout</button>
     </nav>
     <div class="content">
-      <Client />
+      <RouterView v-slot="{ Component }">
+        <Transition mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </RouterView>
     </div>
   </div>
 </template>
@@ -91,4 +104,21 @@ const isLoading = ref(false);
 .v-leave-to {
   opacity: 0;
 }
+
+button {
+    width: 100%;
+    max-width: fit-content;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 </style>
