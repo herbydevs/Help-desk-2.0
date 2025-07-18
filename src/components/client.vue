@@ -80,7 +80,7 @@
                      :key="index" 
                      :class="['message', message.sender === 'You' ? 'sent' : 'received']">
                     <div class="message-content">
-                        <p>{{ message.text }}</p>
+                        <p>{{ message.content }}</p>
                         <span class="message-sender">{{ message.sender }}</span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ export default {
 
         const handleSubmit = async () => {  // Remove event parameter
             try {
-                const response = await fetch('http://localhost:8000/api/tickets', {
+                const response = await fetch('http://localhost:8080/api/tickets', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ export default {
 
         const fetchTickets = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/tickets');
+                const response = await fetch('http://localhost:8080/api/tickets');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -203,7 +203,7 @@ export default {
 
         const fetchMessages = async (ticketId) => {
             try {
-                const response = await fetch(`http://localhost:8000/api/tickets/${ticketId}/messages`);
+                const response = await fetch(`http://localhost:8080/api/tickets/${ticketId}/messages`);
                 if (!response.ok) throw new Error('Failed to fetch messages');
                 chatMessages.value = await response.json();
             } catch (error) {
@@ -216,7 +216,7 @@ export default {
             if (!newMessage.value.trim()) return;
 
             try {
-                const response = await fetch(`http://localhost:8000/api/tickets/${selectedTicketId.value}/messages`, {
+                const response = await fetch(`http://localhost:8080/api/tickets/${selectedTicketId.value}/message`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

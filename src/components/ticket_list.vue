@@ -68,7 +68,7 @@
                          :key="index" 
                          :class="['message', message.sender === currentUser ? 'sent' : 'received']">
                         <div class="message-content">
-                            <p style="margin: 0;">{{ message.text }}</p>
+                            <p style="margin: 0;">{{ message.content }}</p>
                             <span class="message-sender">{{ message.sender }}</span>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ export default {
         const fetchTickets = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:8000/api/tickets', {
+                const response = await fetch('http://localhost:8080/api/tickets', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -141,7 +141,7 @@ export default {
         const fetchMessages = async (ticketId) => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/api/tickets/${ticketId}/messages`, {
+                const response = await fetch(`http://localhost:8080/api/tickets/${ticketId}/messages`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -160,7 +160,7 @@ export default {
 
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/api/tickets/${selectedTicketId.value}/messages`, {
+                const response = await fetch(`http://localhost:8080/api/tickets/${selectedTicketId.value}/message`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ export default {
         const updateTicketStatus = async (ticketId, status) => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/api/tickets/${ticketId}/status`, {
+                const response = await fetch(`http://localhost:8080/api/tickets/${ticketId}/status`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ export default {
         const updateTicketPriority = async (ticketId, priority) => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8000/api/tickets/${ticketId}/priority`, {
+                const response = await fetch(`http://localhost:8080/api/tickets/${ticketId}/priority`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

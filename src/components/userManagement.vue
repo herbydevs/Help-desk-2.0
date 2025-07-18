@@ -10,6 +10,10 @@
           <label for="email">Email:</label>
           <input type="email" id="email" v-model="newUser.email" required />
         </div>
+            <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" v-model="newUser.name" required />
+        </div>
         <div class="form-group">
           <label for="password">Password:</label>
           <input type="password" id="password" v-model="newUser.password" required />
@@ -39,6 +43,7 @@
       <table>
         <thead>
           <tr>
+             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
             <th>Issue Type</th>
@@ -47,6 +52,7 @@
         </thead>
         <tbody>
           <tr v-for="user in users" :key="user.id">
+             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
               <select v-model="user.isAdmin" @change="handleRoleChange(user)">
@@ -86,6 +92,7 @@ export default {
   setup() {
     const users = ref([]);
     const newUser = ref({
+      name: '',
       email: '',
       password: '',
       isAdmin: false,
@@ -94,7 +101,7 @@ export default {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/users');
+        const response = await fetch('http://localhost:8080/api/users');
         if (!response.ok) throw new Error('Failed to fetch users');
         users.value = await response.json();
       } catch (error) {
@@ -104,7 +111,7 @@ export default {
 
     const handleAddUser = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/users', {
+        const response = await fetch('http://localhost:8080/api/users/create', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -115,6 +122,7 @@ export default {
         await fetchUsers();
         // Reset form
         newUser.value = {
+          name:'',
           email: '',
           password: '',
           isAdmin: false,
@@ -128,7 +136,7 @@ export default {
     const handleDeleteUser = async (userId) => {
       if (!confirm('Are you sure you want to delete this user?')) return;
       try {
-        const response = await fetch(`http://localhost:8000/api/users/${userId}`, {
+        const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
           method: 'DELETE'
         });
         if (!response.ok) throw new Error('Failed to delete user');
