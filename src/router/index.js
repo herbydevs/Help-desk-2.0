@@ -3,6 +3,7 @@ import Client from '../components/client.vue'
 import TicketList from '../components/ticket_list.vue'
 import UserManagement from '../components/userManagement.vue'
 import Login from '../components/login.vue'
+import InstitutionManagement from '../components/institutionManagement.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL || '/'),
@@ -12,8 +13,6 @@ const router = createRouter({
       name: 'Client',
       component: Client
     },
-
-    
     {
       path: '/tickets',
       name: 'TicketList',
@@ -23,18 +22,16 @@ const router = createRouter({
       path: '/user-management',
       name: 'UserManagement',
       component: UserManagement
-
-
-      
     },
-
+      {
+      path: '/institution-management',
+      name: 'InstitutionManagement',
+      component: InstitutionManagement
+    },
     {
       path: '/login',
       name: 'login',
       component: Login
-
-
-      
     },
 
     { path: '/:pathMatch(.*)*', redirect: '/' }
