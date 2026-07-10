@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Client from '../components/client.vue'
+//import Client from '../components/client.vue'
 import TicketList from '../components/ticket_list.vue'
 import UserManagement from '../components/userManagement.vue'
 import Login from '../components/Login.vue'
-import InstitutionManagement from '../components/institutionManagement.vue'
-import EditInstitution from '../components/EditInstitution.vue'
+// import InstitutionManagement from '../components/institutionManagement.vue'
+// import EditInstitution from '../components/EditInstitution.vue'
 import EditUser from '../components/EditUser.vue'
 import ViewTicket from '../components/ViewTicket.vue'
 import RegisterForm from '../components/RegisterForm.vue'
@@ -12,7 +12,9 @@ import ActivateView from '../components/Activate.vue'
 import FequentlyAskedQuestions from '../components/FequentlyAskedQuestions.vue'
 import IssueTypeManagement from '../components/IssueTypeManagement.vue'
 import TicketStatusManagement from '../components/TicketStatusManagement.vue'
+import institutionRoutes from '../components/institution_management'
 import Default from '../components/views/MainTemplate.vue'
+import clientRoutes from '../components/client'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL || '/'),
@@ -27,11 +29,22 @@ const router = createRouter({
       // },
       // example for using default views and other views when creating new routes
 
+      {
+      name: "institutions",
+      path: '/institutions',
+      component: Default,
+      children: [
+        ...institutionRoutes
+      ]
+      },
 
      {
       path: '/',
       name: 'Client',
-      component: Client
+       component: Default,
+       children: [
+         ...clientRoutes
+       ]
     },
     {
       path: '/tickets',
@@ -43,16 +56,16 @@ const router = createRouter({
       name: 'UserManagement',
       component: UserManagement
     },
-    {
-      path: '/institution-management',
-      name: 'InstitutionManagement',
-      component: InstitutionManagement
-    },
-     {
-      path: '/institutions/edit/:id',
-      name: 'edit-institution',
-      component: EditInstitution
-    },
+    // {
+    //   path: '/institution-management',
+    //   name: 'InstitutionManagement',
+    //   component: InstitutionManagement
+    // },
+    //  {
+    //   path: '/institutions/edit/:id',
+    //   name: 'edit-institution',
+    //   component: EditInstitution
+    // },
     {
       path: '/users/edit/:id',
       name: 'edit-user',

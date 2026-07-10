@@ -1,11 +1,10 @@
 <template>
-  <MainTemplate>
-  
+
 
 
     <!-- Add User Form -->
     <div class="form-container">
-     
+
       <form class="add-form" @submit.prevent="handleEditInstitution">
          <h3>Edit Institution</h3>
           <div class="form-group">
@@ -27,7 +26,7 @@
           <label for="phoneNumber">Telephone:</label>
           <input type="text" id="phoneNumber" v-model="existingInstitution.phoneNumber" required />
         </div>
-       
+
         <div class="button-group">
         <button type="submit"><i class="pi pi-check" style="font-size: 1rem"></i>Save</button>
         <RouterLink to="/institution-management"><button><i class="pi pi-ban" style="font-size: 1rem"></i>Cancel</button></RouterLink>
@@ -35,20 +34,18 @@
       </form>
     </div>
 
- 
-  </MainTemplate>
 </template>
 
 <script>
   import { ref, onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import MainTemplate from './MainTemplate.vue';
+  //import MainTemplate from './MainTemplate.vue';
   import { useToast } from 'vue-toastification'
 
 export default {
   name: 'InstitutionManagement',
    components: {
-    MainTemplate
+    //MainTemplate
   },
   setup() {
     const toast = useToast();
@@ -61,10 +58,10 @@ export default {
       email: '',
       telephone: ''
     });
-   
 
 
-  
+
+
 
   const fetchInstitution = async () => {
       try {
@@ -78,16 +75,16 @@ export default {
                 });
         if (!response.ok) throw new Error('Failed to fetch institution');
         existingInstitution.value = await response.json();
-        
+
       } catch (error) {
         console.error('Error fetching institution:', error);
         toast.error('Error fetching institution')
       }
     };
-   
 
-    
-    
+
+
+
    const handleEditInstitution = async () => {
       try {
         const token = localStorage.getItem('token');
