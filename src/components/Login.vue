@@ -1,6 +1,12 @@
-<template>
+<template>  
+    <div align="center">        
+        <img src="../assets/cardtp.png" alt="cardtp logo" class="logo"  />
+        <h2>Help Desk</h2>
+    </div>
     <div class="login-form">
-        <h2>Login</h2>
+        
+   
+      
         <form @submit="handleLogin">
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -12,12 +18,17 @@
             </div>
             <button type="submit">Login</button>
         </form>
+        <br/>
+        <div>
+        <RouterLink to="/register">Register</RouterLink></div>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref ,nextTick} from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
 
 export default {
     name: 'Login',
@@ -25,11 +36,13 @@ export default {
         const email = ref('');
         const password = ref('');
         const error = ref('');
+        const router = useRouter();
+        const auth = useAuthStore();
 
         const handleLogin = async (event) => {
-            event.preventDefault();
+            event.preventDefault(); 
             try {
-                const response = await fetch('http://localhost:8000/api/login', {
+                const response = await fetch("/api/login", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -42,10 +55,20 @@ export default {
                 
                 const data = await response.json();
                 if (response.ok) {
-                    localStorage.setItem('token', data.access_token);
+                //    localStorage.setItem('token', data.token);
+                //   localStorage.setItem('user', JSON.stringify(data.user));
+                    auth.setUser(data.user, data.token); // store both
                     emit('login-success', data.user); // Pass the user data including is_admin
+                
+                   if (data.user.admin) {
+                    console.log("User Admin: "+data.user.admin)
+                   // await nextTick();
+                        router.push('/tickets');
+                    } else {
+                        router.push('/');
+                    }
                 } else {
-                    error.value = data.detail;
+                    error.value = data.detail ;
                 }
             } catch (err) {
                 error.value = 'Login failed. Please try again.';
@@ -63,6 +86,9 @@ export default {
 </script>
 
 <style scoped>
+.logo {
+  height: 80px;
+}
 .login-form {
     max-width: 400px;
     margin: 40px auto;
