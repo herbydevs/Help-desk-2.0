@@ -69,6 +69,36 @@ services:
     networks:
       - help_desk_v3
 
+  ollama_embedder:
+    image: ollama/ollama:latest
+    container_name: ollama_embedder
+    restart: always
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_NUM_PARALLEL=4
+      - OLLAMA_MAX_LOADED_MODELS=2
+    ports:
+      - "11435:11434"
+    volumes:
+      - ollama_data_v3:/root/.ollama
+    networks:
+      - help_desk_v3
+
+  ollama_decomposer:
+    image: ollama/ollama:latest
+    container_name: ollama_decomposer
+    restart: always
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_NUM_PARALLEL=4
+      - OLLAMA_MAX_LOADED_MODELS=2
+    ports:
+      - "11436:11434"
+    volumes:
+      - ollama_data_v3:/root/.ollama
+    networks:
+      - help_desk_v3
+
 volumes:
   pgdata_v3:
   redisdata_v3:
