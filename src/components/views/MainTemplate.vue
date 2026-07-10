@@ -62,24 +62,24 @@ onBeforeUnmount(() => {
       <button class="hamburger" @click="toggleSidebar">☰</button>
       <div class="topbar-title">
         <img src="../assets/cardtp.png" alt="cardtp logo" class="logo" />
-        <!--  <img src="../assets/vswift.png" alt="vswift logo" class="logo" />--> 
+        <!--  <img src="../assets/vswift.png" alt="vswift logo" class="logo" />-->
         <div> <h2 class="title">Help Desk</h2></div>
 
       </div>
-      
+
 <!-- User email on the right -->
   <div v-if="isLoggedIn" class="topbar-user">
     <i class="pi pi-user"></i> {{ userEmail }}
   </div>
-     
+
     </header>
 
 
 
     <!-- Overlay for mobile -->
-    <div 
-      v-if="sidebarOpen" 
-      class="overlay" 
+    <div
+      v-if="sidebarOpen"
+      class="overlay"
       @click="closeSidebar"
     ></div>
 
@@ -132,7 +132,7 @@ onBeforeUnmount(() => {
 
     <!-- Main Content -->
     <main class="content">
-      <slot></slot>
+      <router-view/>
     </main>
   </div>
 </template>
@@ -236,7 +236,7 @@ onBeforeUnmount(() => {
   flex: 1; /* Take all available space */
   padding: 80px 20px 20px; /* Top padding accounts for fixed topbar */
   /*margin-left: 220px;  /*Matches sidebar width */
-  margin-left: 20px; 
+  margin-left: 20px;
 
   box-sizing: border-box;
   max-width: 100%;
