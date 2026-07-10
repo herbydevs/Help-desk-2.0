@@ -12,10 +12,22 @@ import ActivateView from '../components/Activate.vue'
 import FequentlyAskedQuestions from '../components/FequentlyAskedQuestions.vue'
 import IssueTypeManagement from '../components/IssueTypeManagement.vue'
 import TicketStatusManagement from '../components/TicketStatusManagement.vue'
+import Default from '../components/Default.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL || '/'),
   routes: [
+
+      // {
+      //     path: '/',
+      //     component:Default,
+      //     children: [
+      //
+      //     ]
+      // },
+      // example for using default views and other views when creating new routes
+
+
      {
       path: '/',
       name: 'Client',

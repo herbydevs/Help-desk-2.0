@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/auth.js';
+import { useAuthStore } from '../../stores/auth.js';
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -48,8 +48,8 @@ onBeforeUnmount(() => {
     <header class="topbar">
       <button class="hamburger" @click="toggleSidebar">☰</button>
       <div class="topbar-title">
-        <img src="../assets/cardtp.png" alt="cardtp logo" class="logo" />
-        <img src="../assets/vswift.png" alt="vswift logo" class="logo" />
+        <img src="../../assets/cardtp.png" alt="cardtp logo" class="logo" />
+        <img src="../../assets/vswift.png" alt="vswift logo" class="logo" />
       </div>
     </header>
 
@@ -60,7 +60,8 @@ onBeforeUnmount(() => {
       @click="closeSidebar"
     ></div>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (refactor later useing a v-for and a array instead of 10 million list elements) -->
+
     <nav class="sidebar" :class="{ open: sidebarOpen }">
       <ul>
         <li v-if="isAdmin">
