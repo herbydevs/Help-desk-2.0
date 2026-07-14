@@ -1,6 +1,5 @@
 <template>
-      <MainTemplate>
-        <div> 
+        <div>
     <div class="SubmitTicket">
         <form class="add-ticket-form" @submit.prevent="handleSubmit">
                     <h2> Submit A Ticket</h2>
@@ -23,7 +22,7 @@
                 </select>
 
                 <label for="type">Type:</label>
-               
+
                  <select id="type" v-model="type" required>
                     <option disabled value="">-- Select Type --</option>
                     <option v-for="issue in issueTypes" :key="issue.id" :value="issue.name">
@@ -35,7 +34,7 @@
             <button type="submit"><i class="pi pi-check" style="font-size: 1rem"></i>Submit Ticket</button>
         </form>
         <div v-if="successMessage" class="success">{{ successMessage }}</div>
-        <div v-if="errorMessage" class="error">{{ errorMessage }}</div> 
+        <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
     </div>
 
     <div class="tickets-list">
@@ -61,7 +60,7 @@
                      <td>{{ ticket.assignedTo }}</td>
                     <td>{{ formatDate(ticket.createdAt) }}</td>
 
-                    
+
                     <td>
                         <button class="chat-btn" @click="openChat(ticket.id)">
                             💬 Chat
@@ -81,8 +80,8 @@
                 <button class="close-button" @click="closeChat">&times;</button>
             </div>
             <div class="chat-messages">
-                <div v-for="(message, index) in chatMessages" 
-                     :key="index" 
+                <div v-for="(message, index) in chatMessages"
+                     :key="index"
                      :class="['message', message.sender === currentUser ? 'sent' : 'received']">
                     <div class="message-content">
                         <p>{{ message.content }}</p>
@@ -91,9 +90,9 @@
                 </div>
             </div>
             <div class="chat-input">
-                <textarea 
-                    v-model="newMessage" 
-                    placeholder="Type your message..." 
+                <textarea
+                    v-model="newMessage"
+                    placeholder="Type your message..."
                     rows="2"
                     @keyup.enter="sendMessage"
                 ></textarea>
@@ -104,21 +103,20 @@
 
     </div>
 
-    </MainTemplate>
 </template>
 
 <script>
 import { ref, onMounted, nextTick ,computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
-import MainTemplate from './MainTemplate.vue';
+import { useAuthStore } from '../../../stores/auth';
+//import MainTemplate from './MainTemplate.vue';
 import { useToast } from 'vue-toastification'
 
 export default {
     name: 'SubmitTicket',
 
      components: {
-    MainTemplate
+   //MainTemplate
   },
     setup() {
         const auth = useAuthStore();
@@ -134,7 +132,7 @@ export default {
             }
         return date.toLocaleString(); // e.g., "7/15/2025, 9:44 AM"
         }
-        
+
         const toast = useToast()
         const router = useRouter();
         const subject = ref('');
@@ -157,9 +155,9 @@ export default {
         ]);
         const issueTypes = ref([]);
 
-        
 
-        const handleSubmit = async () => {  
+
+        const handleSubmit = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch('/api/tickets/create', {
@@ -184,10 +182,10 @@ export default {
                 description.value = '';
                 priority.value = 'low';
                 type.value = 'payment';  // Reset type to default
-               
+
                 toast.success('Ticket submitted successfully!')
 
-               
+
                 fetchMyTickets(); // Refresh the ticket list
             } catch (error) {
                 errorMessage.value = `Error submitting ticket: ${error.message}`;
@@ -274,7 +272,7 @@ export default {
             }
         };
 
-        
+
 
         const sendMessage = async () => {
             if (!newMessage.value.trim()) return;
@@ -322,12 +320,12 @@ export default {
         };
 
 
-        
+
     const fetchIssueTypes = async () => {
       try {
         const token = localStorage.getItem('token');
            if (!token) return;
-       
+
         const response = await fetch('/api/issue-types',
         {
                     headers: {
@@ -342,7 +340,7 @@ export default {
         toast.error('Error fetching issue types');
       }
     };
-        
+
         onMounted(() => {
             const token = auth.token;
             if(!token){
@@ -356,20 +354,20 @@ export default {
             };
         });
 
-        return { 
-            subject, description, priority, 
+        return {
+            subject, description, priority,
             type, // Add type here
-            successMessage, 
-            errorMessage, 
+            successMessage,
+            errorMessage,
             tickets,
-            handleSubmit, 
-            showChat, 
-            selectedTicketId, 
-            newMessage, 
-            chatMessages, 
-            sendMessage, 
-            handleLogout, 
-            openChat, 
+            handleSubmit,
+            showChat,
+            selectedTicketId,
+            newMessage,
+            chatMessages,
+            sendMessage,
+            handleLogout,
+            openChat,
             closeChat ,
             formatDate,
             fetchMyTickets,
@@ -616,7 +614,7 @@ h2 {
   display: flex;
   margin: auto;
   box-sizing: border-box;
-  
+
 }
 
 .add-ticket-form {
@@ -633,8 +631,8 @@ h2 {
 .tickets-list ,table {
   width: 100%;
   border-collapse: collapse;
- 
-  
+
+
 }
 .tickets-list th,
 .tickets-list td {

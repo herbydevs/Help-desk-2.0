@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:16
     container_name: help_desk_postgres
     restart: always
     environment:
@@ -10,37 +8,16 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: helpdesk
     ports:
-      - "5433:5432"  # Using 5433 to completely avoid local port conflicts
+      - "5430:5432"
     volumes:
-      - pgdata_v3:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
       timeout: 5s
       retries: 5
     networks:
-      - help_desk_v3
-
-  vector_db:
-    image: pgvector/pgvector:pg16
-    container_name: help_desk_vectors_postgres
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: helpdesk_vector
-      POSTGRES_HOST_AUTH_METHOD: trust
-    ports:
-      - "5435:5432"  # Using 5433 to completely avoid local port conflicts
-    volumes:
-      - pg_vec_data_v3:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - help_desk_v3
+      - help_desk
 
   redis:
     image: redis:7-alpine
@@ -50,9 +27,9 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redisdata_v3:/data
+      - redisdata:/data
     networks:
-      - help_desk_v3
+      - help_desk
 
   ollama:
     image: ollama/ollama:latest

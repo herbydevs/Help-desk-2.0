@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../../stores/auth';
+import { useAuthStore } from '../stores/auth';
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -32,10 +32,6 @@ const goToFequentlyAskedQuestions = () => window.location.href = 'http://138.68.
 const goToIssueTypes = () => window.location.href = 'http://138.68.58.185//help-desk/issue-types';
 const goToTicketStatuses = () => window.location.href = 'http://138.68.58.185//help-desk/ticket-statuses';
 */
-
-// const goToInstitutions = () => {
-//   console.log("hello world")
-// }
 
 const goToUsers = () => router.push('/user-management');
 const goToInstitutions = () => router.push('/institutions/manage');
@@ -71,7 +67,6 @@ onBeforeUnmount(() => {
 
       </div>
 
-<!-- User email on the right -->
   <div v-if="isLoggedIn" class="topbar-user">
     <i class="pi pi-user"></i> {{ userEmail }}
   </div>
@@ -80,7 +75,6 @@ onBeforeUnmount(() => {
 
 
 
-    <!-- Overlay for mobile -->
     <div
       v-if="sidebarOpen"
       class="overlay"
