@@ -2,47 +2,12 @@
 
 <nav class="sidebar" :class="{ open: sidebarOpen }">
   <ul>
-    <li v-if="isAdmin">
-      <button class="sidebar-link" @click="goToUsers">
-        <i class="pi pi-users"></i><span>Users</span>
-      </button>
-    </li>
-    <li>
-      <button class="sidebar-link" @click="goToSubmitTicket">
-        <i class="pi pi-plus"></i><span>Submit a ticket</span>
-      </button>
-    </li>
-    <li v-if="isAdmin">
-      <button class="sidebar-link" @click="goToInstitutions">
-        <i class="pi pi-building-columns"></i><span>Institutions</span>
-      </button>
-    </li>
-
-    <li v-if="isAdmin">
-      <button class="sidebar-link" @click="goToIssueTypes">
-        <i class="pi pi-objects-column"></i><span>Issue Types</span>
-      </button>
-    </li>
-    <li v-if="isAdmin">
-      <button class="sidebar-link" @click="goToTickets">
-        <i class="pi pi-list-check"></i><span>Tickets</span>
-      </button>
-    </li>
-    <li v-if="isAdmin">
-      <button class="sidebar-link" @click="goToTicketStatuses">
-        <i class="pi pi-list-check"></i><span>Ticket Statuses</span>
-      </button>
-    </li>
-     <li>
-      <button class="sidebar-link" @click="goToFequentlyAskedQuestions">
-        <i class="pi pi-question"></i><span>FAQ</span>
-      </button>
-    </li>
-    <li v-if="isLoggedIn">
-      <button class="sidebar-link" @click="handleLogout">
-        <i class="pi pi-sign-out"></i><span>Logout</span>
-      </button>
-    </li>
+      <li v-for="item in sidebarItems">
+            <button class="sidebar-link" @click="item.action">
+                <i :class="['pi', item.icon]"></i>
+                <span>{{ item.label }}</span>
+            </button>
+      </li>
   </ul>
 </nav>
 
@@ -58,7 +23,20 @@ const router = useRouter();
 const userEmail = computed(() => auth.user?.email);
 const isLoggedIn = computed(() => auth.isLoggedIn);
 const isAdmin = computed(() => auth.user?.admin);
+const sidebarItems = computed(() => {
+  const rawItems = [
+    { label: 'Users', icon: 'pi-users', action: goToUsers, show: isAdmin.value },
+    { label: 'Submit a ticket', icon: 'pi-plus', action: goToSubmitTicket, show: true },
+    { label: 'Institutions', icon: 'pi-building-columns', action: goToInstitutions, show: isAdmin.value },
+    { label: 'Issue Types', icon: 'pi-objects-column', action: goToIssueTypes, show: isAdmin.value },
+    { label: 'Tickets', icon: 'pi-list-check', action: goToTickets, show: isAdmin.value },
+    { label: 'Ticket Statuses', icon: 'pi-list-check', action: goToTicketStatuses, show: isAdmin.value },
+    { label: 'FAQ', icon: 'pi-question', action: goToFequentlyAskedQuestions, show: true },
+    { label: 'Logout', icon: 'pi-sign-out', action: handleLogout, show: isLoggedIn.value }
+  ]
 
+  return rawItems.filter(item => item.show)
+})
 
 
 
@@ -69,6 +47,7 @@ const goToSubmitTicket = () => router.push('/help-desk/');
 const goToFequentlyAskedQuestions = () => router.push('/frequently-asked-questions');
 const goToIssueTypes = () => router.push('/issue-types');
 const goToTicketStatuses = () => router.push('/ticket-statuses');
+const handleLogout = () => {auth.logout(), router.push('/login')}
 </script>
 
 <style scoped>

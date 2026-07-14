@@ -1,12 +1,12 @@
-<template>  
-    <div align="center">        
+<template>
+    <div align="center">
         <img src="../assets/cardtp.png" alt="cardtp logo" class="logo"  />
         <h2>Help Desk</h2>
     </div>
     <div class="login-form">
-        
-   
-      
+
+
+
         <form @submit="handleLogin">
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -28,7 +28,7 @@
 <script>
 import { ref ,nextTick} from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../../../stores/auth';
 
 export default {
     name: 'Login',
@@ -40,7 +40,7 @@ export default {
         const auth = useAuthStore();
 
         const handleLogin = async (event) => {
-            event.preventDefault(); 
+            event.preventDefault();
             try {
                 const response = await fetch("/api/login", {
                     method: 'POST',
@@ -52,14 +52,14 @@ export default {
                         password: password.value,
                     }),
                 });
-                
+
                 const data = await response.json();
                 if (response.ok) {
                 //    localStorage.setItem('token', data.token);
                 //   localStorage.setItem('user', JSON.stringify(data.user));
                     auth.setUser(data.user, data.token); // store both
                     emit('login-success', data.user); // Pass the user data including is_admin
-                
+
                    if (data.user.admin) {
                     console.log("User Admin: "+data.user.admin)
                    // await nextTick();

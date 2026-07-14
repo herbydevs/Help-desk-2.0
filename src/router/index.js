@@ -2,13 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 //import Client from '../components/client.vue'
 import TicketList from '../components/ticket_list.vue'
 import UserManagement from '../components/userManagement.vue'
-import Login from '../components/Login.vue'
+//import Login from '../components/Login.vue'
 // import InstitutionManagement from '../components/institutionManagement.vue'
 // import EditInstitution from '../components/EditInstitution.vue'
 import EditUser from '../components/EditUser.vue'
 import ViewTicket from '../components/ViewTicket.vue'
-import RegisterForm from '../components/RegisterForm.vue'
-import ActivateView from '../components/Activate.vue'
+//import RegisterForm from '../components/RegisterForm.vue'
+//import ActivateView from '../components/Activate.vue'
 import FequentlyAskedQuestions from '../components/FequentlyAskedQuestions.vue'
 import IssueTypeManagement from '../components/IssueTypeManagement.vue'
 import TicketStatusManagement from '../components/TicketStatusManagement.vue'
@@ -16,7 +16,8 @@ import institutionRoutes from '../components/institution_management'
 import Default from '../components/views/MainTemplate.vue'
 import clientRoutes from '../components/client'
 import chatRoutes from '../components/chatbot'
-import MainTemplate from '../components/views/MainTemplate.vue'
+import authRoutes from '../components/auth'
+import Blank from '../components/views/Blank.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL || '/'),
@@ -30,11 +31,18 @@ const router = createRouter({
       //     ]
       // },
       // example for using default views and other views when creating new routes
-
+      {
+      name: "auth",
+      path: "/auth",
+      component: Blank,
+      children: [
+        ...authRoutes
+      ]
+      },
       {
       name: "chatbot",
       path: "/chatbot",
-      component: MainTemplate,
+      component: Default,
       children: [
         ...chatRoutes
       ]
@@ -87,21 +95,21 @@ const router = createRouter({
       name: 'view-ticket',
       component: ViewTicket
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: RegisterForm
-    },
-    {
-      path: '/activate',
-      name: 'activate-account',
-      component: ActivateView
-    },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: Login
+    // },
+    // {
+    //   path: '/register',
+    //   name: 'register',
+    //   component: RegisterForm
+    // },
+    // {
+    //   path: '/activate',
+    //   name: 'activate-account',
+    //   component: ActivateView
+    // },
      {
       path: '/frequently-asked-questions',
       name: 'frequently-asked-questions',
