@@ -15,6 +15,8 @@ import TicketStatusManagement from '../components/TicketStatusManagement.vue'
 import institutionRoutes from '../components/institution_management'
 import Default from '../components/views/MainTemplate.vue'
 import clientRoutes from '../components/client'
+import chatRoutes from '../components/chatbot'
+import MainTemplate from '../components/views/MainTemplate.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL || '/'),
@@ -28,6 +30,15 @@ const router = createRouter({
       //     ]
       // },
       // example for using default views and other views when creating new routes
+
+      {
+      name: "chatbot",
+      path: "/chatbot",
+      component: MainTemplate,
+      children: [
+        ...chatRoutes
+      ]
+      },
 
       {
       name: "institutions",

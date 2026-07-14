@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';
+import sidebar from '../UI/sidebar.vue'
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -88,7 +89,7 @@ onBeforeUnmount(() => {
     ></div>
 
     <!-- Sidebar -->
-    <nav class="sidebar" :class="{ open: sidebarOpen }">
+    <!-- <nav class="sidebar" :class="{ open: sidebarOpen }">
       <ul>
         <li v-if="isAdmin">
           <button class="sidebar-link" @click="goToUsers">
@@ -132,7 +133,8 @@ onBeforeUnmount(() => {
           </button>
         </li>
       </ul>
-    </nav>
+    </nav> -->
+    <sidebar/>
 
     <!-- Main Content -->
     <main class="content">
