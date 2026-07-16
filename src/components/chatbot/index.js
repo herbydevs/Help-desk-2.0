@@ -3,7 +3,7 @@ import main from './pages/main.vue'
 export default [
   {
     name: "main",
-    path: "/chat",
+    path: "chat",
     component: main
   }
 ]

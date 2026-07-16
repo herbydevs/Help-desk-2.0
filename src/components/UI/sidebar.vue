@@ -32,6 +32,7 @@ const sidebarItems = computed(() => {
     { label: 'Tickets', icon: 'pi-list-check', action: goToTickets, show: isAdmin.value },
     { label: 'Ticket Statuses', icon: 'pi-list-check', action: goToTicketStatuses, show: isAdmin.value },
     { label: 'FAQ', icon: 'pi-question', action: goToFequentlyAskedQuestions, show: true },
+    {label: 'chatbot', icon: '', action: goToChatbot, show: isLoggedIn.value},
     { label: 'Logout', icon: 'pi-sign-out', action: handleLogout, show: isLoggedIn.value }
   ]
 
@@ -41,6 +42,7 @@ const sidebarItems = computed(() => {
 
 
 const goToUsers = () => router.push('/user-management');
+const goToChatbot = () => router.push('/chatbot/chat');
 const goToInstitutions = () => router.push('/institutions/manage');
 const goToTickets = () => router.push('/tickets');
 const goToSubmitTicket = () => router.push('/help-desk/');

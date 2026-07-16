@@ -6,17 +6,17 @@ import register from './pages/RegisterForm.vue'
 export default [
   {
     name: "login",
-    path: "/login",
+    path: "login",
     component: login
   },
   {
     name: "activate",
-    path: "/activate",
+    path: "activate",
     component: activate
   },
   {
     name: "register",
-    path: "/register",
+    path: "register",
     component: register
   }
 
